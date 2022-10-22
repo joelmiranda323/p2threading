@@ -1,12 +1,6 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -O2
-LDFLAGS =
-OBJFILES = queue.o main.o
-TARGET = p2
+# Target library
+lib := libuthread.a
 
-all: $(TARGET)
-	$(TARGET): $(OBJFILES)
-		$(CC) $(CFLAGS) -o $(TARGET) $(OBJFILES) $(LDFLAGS)
+all: $(lib)
 
-clean:
-	rm -f $(OBJFILES) $(TARGET) *~
+## TODO: Phase 1
