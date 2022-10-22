@@ -19,6 +19,7 @@ queue_t queue_create(void) {
     queue_t queue = (queue_t) malloc(sizeof(queue_t));
     //queue->child = NULL;
     //queue->data = NULL;
+    //queu->isEmpty = TRUE;
     return queue;
 }
 
@@ -30,10 +31,12 @@ int queue_destroy(queue_t queue) {
 
     free(queue->data);
     queue->data = NULL;
+        
+    queue->isEmpty = TRUE;
 
     free(queue);
     queue = NULL;
-
+        
     return 0;
 }
 
