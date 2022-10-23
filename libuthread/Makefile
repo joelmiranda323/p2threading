@@ -1,4 +1,5 @@
 CC = gcc
+CFLAGS = -Wall -Wextra -Werror -O2
 CFILES = queue.c
 OBJFILES = queue.o
 # Target library
@@ -9,8 +10,8 @@ all: $(lib)
 $(lib): $(OBJFILES)
 	ar rc $(lib) $(OBJFILES)
 
-$(OBJFILES): $(CFILES)
-	$(CC) -c $(CFILES) -o $(OBJFILES)
+%.o: %.c
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 ##clean: $(OBJFILES) $(lib)
 ##	rm -f $(OBJFILES)
