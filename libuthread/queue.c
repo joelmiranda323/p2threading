@@ -117,7 +117,7 @@ int queue_iterate(queue_t queue, queue_func_t func)
 
 	struct node *temp = queue->front;
 	while(temp->next == NULL) {
-		//func(temp->data);
+		func(temp, temp->data);
 		temp = temp->next; 
 	}
 
