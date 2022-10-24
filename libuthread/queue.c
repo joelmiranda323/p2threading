@@ -136,17 +136,3 @@ int queue_length(queue_t queue)
     if(queue == NULL) {return -1;}
     return queue->size;
 }
-
-void queue_print(queue_t queue) {
-    if(queue == NULL) {
-        return;
-    }
-
-    struct node *temp = queue->front;
-    while (temp != NULL)
-    {
-        printf("%d ", *((int*)temp->data));
-        temp = temp->next;
-    }
-    printf("\n");
-}
