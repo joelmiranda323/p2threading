@@ -83,7 +83,7 @@ static void iterator_inc(queue_t q, void *data)
         queue_delete(q, data);
     else {
         *a += 1;
-        printf("%d", *a);
+        //printf("%d ", *a);
     }
 }
 
@@ -101,16 +101,17 @@ void test_iterator(void)
 
     /* Increment every item of the queue, delete item '42' */
     queue_iterate(q, iterator_inc);
-    assert(data[0] == 2);
-    assert(queue_length(q) == 9);
+
+    printf("\ntesting iterator: \n");
+    TEST_ASSERT(data[0] == 2);
+    TEST_ASSERT(queue_length(q) == 9);
+    printf("iterator test done!\n\n");
 }
 
 int main(void)
 {
     test_create();
-    //test_iterator();
-    //printf("\n");
-
+    test_iterator();
     test_queue_enqueue();
     delete_test();
     //test_destroy();
