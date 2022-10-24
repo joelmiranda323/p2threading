@@ -13,7 +13,7 @@ $(lib): $(OBJFILES)
 	ar rc $(lib) $(OBJFILES)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $^ -o $@
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 ##clean: $(OBJFILES) $(lib)
 ##	rm -f $(OBJFILES)
