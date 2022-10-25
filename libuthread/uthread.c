@@ -15,7 +15,9 @@
 #define BLOCKED	2
 #define ZOMBIE	3
 
-queue_t queueT;
+// Race condtions
+// We need to use a lock (preempt disable/enable functions) for these
+queue_t qThread;
 struct uthread_tcb *currentThread;
 
 struct uthread_tcb {
@@ -35,6 +37,7 @@ void uthread_yield(void)
 {
 	/* TODO Phase 2 */
 
+	preempt_disable();
 	// Get currrent running thread
 	struct uthread_tcb *currThread = uthread_current();
 
@@ -44,17 +47,17 @@ void uthread_yield(void)
 		currThread->state = READY;
 
 		// Add yeilding thread to the queue
-		queue_enqueue(queueT, currThread);
+		queue_enqueue(qThread, (void *) currThread);
 	}
 	else {
-		perror("uthread_yield() currThread");
 		// print the state of the current thread
-		printf("state of current thread: %d", currThread->state);
+		printf("In uthread_yield(): currThread\n");
+		printf("State of current thread: %d\n", currThread->state);
 	}
 
 	// Get the oldest thread from the queue
 	struct uthread_tcb *oldThread;
-	queue_dequeue(queueT, &oldThread);
+	queue_dequeue(qThread, (void **) &oldThread);
 
 	// Elect oldest thread to run: READY to RUNNING
 	if (oldThread->state == READY) {
@@ -63,19 +66,47 @@ void uthread_yield(void)
 		currentThread = oldThread;
 	}
 	else {
-		perror("uthread_yield() oldThread");
 		// print the state of the oldest thread
-		printf("state of oldest thread: %d", oldThread->state);
+		printf("In uthread_yield(): oldThread\n");
+		printf("State of oldest thread: %d\n", oldThread->state);
 	}
 
 	// Save yielding threads context and activate current threads context
 	uthread_ctx_switch(currThread->context, oldThread->context);
+	preempt_enable();
 }
 
 void uthread_exit(void)
 {
 	/* TODO Phase 2 */
+	preempt_disable();
+	// Get currrent running thread
+	struct uthread_tcb *currThread = uthread_current();
 
+	// Exit current running thread
+	currThread->state = ZOMBIE;
+	free(currThread->context);
+	free(currThread->stack);
+
+	// Get the oldest thread from the queue
+	struct uthread_tcb *oldThread;
+	queue_dequeue(qThread, (void **) &oldThread);
+
+	// Elect oldest thread to run: READY to RUNNING
+	if (oldThread->state == READY) {
+		// Oldest thread is now the current running thread
+		oldThread->state = RUNNING;
+		currentThread = oldThread;
+	}
+	else {
+		// print the state of the oldest thread
+		printf("In uthread_exit(): oldThread\n");
+		printf("State of oldest thread: %d\n", oldThread->state);
+	}
+
+	// Save yielding threads context and activate current threads context
+	uthread_ctx_switch(currThread->context, oldThread->context);
+	preempt_enable();
 }
 
 int uthread_create(uthread_func_t func, void *arg)
@@ -95,7 +126,9 @@ int uthread_create(uthread_func_t func, void *arg)
 		return -1;
 	}
 
-	queue_enqueue(queueT, uthread);
+	preempt_disable();
+	queue_enqueue(qThread, (void *) uthread);
+	preempt_enable();
 
 	return 0;
 }
@@ -103,6 +136,17 @@ int uthread_create(uthread_func_t func, void *arg)
 int uthread_run(bool preempt, uthread_func_t func, void *arg)
 {
 	/* TODO Phase 2 */
+
+	// Start preemption
+	preempt_start(preempt);
+
+	// Initialize and allocate memory to global queue
+	preempt_disable();
+	qThread = queue_create();
+	preempt_enable();
+
+	// Create first thread
+	uthread_create(func, arg);
 }
 
 void uthread_block(void)
