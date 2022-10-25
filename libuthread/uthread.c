@@ -113,21 +113,21 @@ int uthread_create(uthread_func_t func, void *arg)
 {
 	/* TODO Phase 2 */
 	int ctxInitStatus;
-	struct uthread_tcb *uthread = (struct uthread_tcb *) malloc(sizeof(struct uthread_tcb));
+	struct uthread_tcb *newThread = (struct uthread_tcb *) malloc(sizeof(struct uthread_tcb));
 	
-	uthread->state = READY;
-	uthread->context = (struct uthread_ctx_t *) malloc(sizeof(uthread_ctx_t));
-	uthread->stack = uthread_ctx_alloc_stack();
+	newThread->state = READY;
+	newThread->context = (struct uthread_ctx_t *) malloc(sizeof(uthread_ctx_t));
+	newThread->stack = uthread_ctx_alloc_stack();
 
-	ctxInitStatus = uthread_ctx_init(uthread->context, uthread->stack, func, arg);
+	ctxInitStatus = uthread_ctx_init(newThread->context, newThread->stack, func, arg);
 
 	if(ctxInitStatus == -1) {
-		perror("uthread_ctx_init() in uthread_create()");
+		perror("ctxInitStatus == -1 in uthread_create()");
 		return -1;
 	}
 
 	preempt_disable();
-	queue_enqueue(qThread, (void *) uthread);
+	queue_enqueue(qThread, (void *) newThread);
 	preempt_enable();
 
 	return 0;
