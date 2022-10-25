@@ -63,17 +63,23 @@ void delete_test(void ) {
     }
 }
 
-//void test_destroy() {
-//    int array[10] = {1,2,-88,34,17,0,324,32,6,8};
-//    queue_t q;
-//    q = queue_create();
-//    for(int i =0; i < 10; i++) {
-//        queue_enqueue(q, &array[i]);
-//    }
-//
-//    int destroyed = queue_destroy(q);
-//    TEST_ASSERT(destroyed == 0);
-//}
+void test_destroy() {
+    int array[10] = {1,2,-88,34,17,0,324,32,6,8};
+    queue_t q;
+    q = queue_create();
+    for(int i =0; i < 10; i++) {
+        queue_enqueue(q, &array[i]);
+    }
+
+    queue_t p;
+    p = queue_create();
+
+    int destroyed = queue_destroy(q);
+    int destroyed2 = queue_destroy(p);
+
+    TEST_ASSERT(destroyed == 0);
+    TEST_ASSERT(destroyed2 == 0);
+}
 
 static void iterator_inc(queue_t q, void *data)
 {
@@ -114,7 +120,7 @@ int main(void)
     test_iterator();
     test_queue_enqueue();
     delete_test();
-    //test_destroy();
+    test_destroy();
 
     return 0;
 }
