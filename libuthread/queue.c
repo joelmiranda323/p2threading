@@ -32,9 +32,18 @@ int queue_destroy(queue_t queue)
 {
     /* TODO Phase 1 */
     if(queue == NULL) {return -1;}
+
+    if (queue->size != 0) {
+        for(int i=0; i < queue->size; i++) {
+            struct node *temp = queue->front;
+            queue->front = queue->front->next;
+            free(temp);
+            queue->size--;
+        }
+        return 0;
+    }
     free(queue);
     return 0;
-}
 
 int queue_enqueue(queue_t queue, void *data)
 {
@@ -118,14 +127,17 @@ int queue_iterate(queue_t queue, queue_func_t func)
     if(queue == NULL || func == NULL) {
         return -1;
     }
-    int old_size = queue->size;
+    int actual = queue->size;
 
     struct node *temp = queue->front;
-    while(old_size == queue->size) {
+    while(temp->next != NULL) {
         func(queue, temp->data);
+        if(queue->size != actual ) {
+            break;
+        }
+
         temp = temp->next;
     }
-
     return 0;
 
 }
