@@ -44,6 +44,7 @@ int queue_destroy(queue_t queue)
     }
     free(queue);
     return 0;
+}
 
 int queue_enqueue(queue_t queue, void *data)
 {
