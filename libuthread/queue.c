@@ -31,17 +31,7 @@ queue_t queue_create(void)
 int queue_destroy(queue_t queue)
 {
     /* TODO Phase 1 */
-    if(queue == NULL) {return -1;}
-
-    if (queue->size != 0) {
-        for(int i=0; i < queue->size; i++) {
-            struct node *temp = queue->front;
-            queue->front = queue->front->next;
-            free(temp);
-            queue->size--;
-        }
-        return 0;
-    }
+    if(queue == NULL || queue->size != 0) {return -1;}
     free(queue);
     return 0;
 }
