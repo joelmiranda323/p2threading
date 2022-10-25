@@ -75,10 +75,10 @@ void test_destroy() {
     p = queue_create();
 
     int destroyed = queue_destroy(q);
-    int destroyed2 = queue_destroy(p);
+    int destroyed_empty = queue_destroy(p);
 
-    TEST_ASSERT(destroyed == 0);
-    TEST_ASSERT(destroyed2 == 0);
+    TEST_ASSERT(destroyed == -1);
+    TEST_ASSERT(destroyed_empty == 0);
 }
 
 static void iterator_inc(queue_t q, void *data)
