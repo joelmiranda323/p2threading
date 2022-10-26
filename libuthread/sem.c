@@ -25,9 +25,12 @@ sem_t sem_create(size_t count)
 int sem_destroy(sem_t sem)
 {
 	/* TODO Phase 3 */
+    
+    // fails if there is any thread in the queue waiting for resources available or sem is NULL
     if(sem == NULL || queue_length(sem->queue) > 0) {
         return -1;
     } else {
+        //else destroy it 
         free(sem);
         return 0;
     }
@@ -40,7 +43,7 @@ int sem_down(sem_t sem)
     if(sem == NULL) {
         return -1;
     }
-    
+
     if(sem->counter <= 0) {
         // if there is no resources available, get the current thread and add it to the queue and block it
         struct uthread_tcb *current = uthread_current();
