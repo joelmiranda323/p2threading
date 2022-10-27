@@ -121,7 +121,7 @@ int uthread_create(uthread_func_t func, void *arg)
 	}
 	
 	newThread->state = READY;
-	newThread->context = (struct uthread_ctx_t *) malloc(sizeof(uthread_ctx_t));
+	newThread->context = (uthread_ctx_t *) malloc(sizeof(uthread_ctx_t));
 	newThread->stack = uthread_ctx_alloc_stack();
 
 	if (newThread->context == NULL) {
@@ -164,9 +164,22 @@ int uthread_run(bool preempt, uthread_func_t func, void *arg)
 	}
 
 	idleThread->state = RUNNING;
+	idleThread->context = (uthread_ctx_t *) malloc(sizeof(uthread_ctx_t));
+	idleThread->stack = uthread_ctx_alloc_stack();
+
+	if (idleThread->context == NULL) {
+		perror("uthread_run()");
+		printf("could NOT allocate memory for idleThread->context\n");
+		return -1;
+	}
+	else if (idleThread->stack == NULL) {
+		perror("uthread_run()");
+		printf("could NOT allocate memory for idleThread->stack\n");
+		return -1;
+	}
 	
 	// Start preemption
-	preempt_start(preempt);
+	//preempt_start(preempt);
 
 	// The main/idle thread is the current running thread
 	currentThread = idleThread;
@@ -192,4 +205,5 @@ void uthread_block(void)
 void uthread_unblock(struct uthread_tcb *uthread)
 {
 	/* TODO Phase 4 */
+	uthread = NULL;
 }
