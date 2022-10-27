@@ -50,8 +50,8 @@ void uthread_yield(void)
 	}
 	else {
 		// print the state of the current thread
-		perror("uthread_yield(): prevThread");
-		printf("State of current thread: %d\n", prevThread->state);
+		perror("uthread_yield()");
+		printf("State of prevThread: %d\n", prevThread->state);
 	}
 
 	// Get the oldest thread from queue which will change to a RUNNING state
@@ -66,8 +66,8 @@ void uthread_yield(void)
 	}
 	else {
 		// print the state of the oldest thread
-		perror("uthread_yield(): nextThread");
-		printf("State of oldest thread: %d\n", nextThread->state);
+		perror("uthread_yield()");
+		printf("State of nextThread: %d\n", nextThread->state);
 	}
 
 	// Save yielding threads context and activate current threads context
@@ -99,7 +99,7 @@ void uthread_exit(void)
 	else {
 		// print the state of the oldest thread
 		perror("uthread_exit()");
-		printf("State of oldest thread: %d\n", nextThread->state);
+		printf("State of nextThread: %d\n", nextThread->state);
 	}
 
 	// Save yielding threads context and activate current threads context
@@ -139,7 +139,8 @@ int uthread_create(uthread_func_t func, void *arg)
 	ctxInitStatus = uthread_ctx_init(newThread->context, newThread->stack, func, arg);
 
 	if(ctxInitStatus == -1) {
-		perror("ctxInitStatus in uthread_create()");
+		perror("uthread_create()");
+		printf("could NOT inititate the newThread's context\n");
 		return -1;
 	}
 
