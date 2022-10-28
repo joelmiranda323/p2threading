@@ -1,9 +1,14 @@
+# Compiler name
 CC = gcc
+# Compiler flags
 CFLAGS = -Wall -Wextra -O2
-CFILES = queue.c context.c uthread.c preempt.c uthread_yield.c
-OBJFILES = queue.o context.o uthread.o preempt.o uthread_yield.o
+# C files
+CFILES = queue.c context.c uthread.c preempt.c sem.c
+# Object files
+OBJFILES = queue.o context.o uthread.o preempt.o sem.o
 # Target library
 lib := libuthread.a
+# Target executable Name
 EXE = uthread_yield
 
 all: $(lib) $(EXE)
