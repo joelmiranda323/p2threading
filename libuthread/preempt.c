@@ -21,7 +21,7 @@
 void signal_handler(int signum)
 {
 	printf("singla_handler(%d)\n", signum);
-    uthread_yield();
+	uthread_yield();
 }
 
 void preempt_disable(void)
