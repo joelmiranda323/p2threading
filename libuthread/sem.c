@@ -74,7 +74,7 @@ int sem_up(sem_t sem)
 	}
 	
 	//check if there is a thread in the queue waiting for resources
-	if(queue_length(sem->queue) > 0) {
+	if(queue_length(sem->queue) > 0 && sem->counter == 0) {
         	//if yes, get the first thread in the queue and unblock it
         	struct uthread_tcb *first;
         	queue_dequeue(sem->queue, (void**) &first);
