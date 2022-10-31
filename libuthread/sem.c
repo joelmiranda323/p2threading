@@ -56,6 +56,7 @@ int sem_down(sem_t sem)
 	if(sem->counter == 0) {
 		queue_enqueue(sem->queue,uthread_current());
 		uthread_block();
+		return 0;
 	} else {
 		//else decrement that the resource is being used
 		sem->counter--;
