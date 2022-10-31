@@ -74,7 +74,8 @@ void preempt_start(bool preempt)
 		struct sigaction sa;
 
 		// Set up singal handler
-		sa.sa_handler = signal_handler;
+		// this is a pointer to the function so you should change signal_handler to &signal_handler
+		sa.sa_handler = &signal_handler;
 		sigemptyset(&sa.sa_mask);
 		sa.sa_flags = 0;
 		sigaction(SIGVTALRM, &sa, NULL);
