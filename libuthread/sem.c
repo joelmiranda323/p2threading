@@ -54,8 +54,7 @@ int sem_down(sem_t sem)
 
 	//if resource not available, put the current thread in the waiting queue and block it
 	if(sem->counter == 0) {
-		struct uthread_tcb *current = uthread_current();
-		queue_enqueue(sem->queue,current);
+		queue_enqueue(sem->queue,uthread_current());
 		uthread_block();
 	} else {
 		//else decrement that the resource is being used
