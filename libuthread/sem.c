@@ -37,7 +37,7 @@ int sem_destroy(sem_t sem)
 	if(sem == NULL || queue_length(sem->queue) > 0) {
 		return -1;
 	} else {
-		//else destroy the queue and s
+		//else destroy the queue and semaphore
 		queue_destroy(sem->queue);
 		free(sem);
     		return 0;
