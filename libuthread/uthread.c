@@ -199,11 +199,21 @@ int uthread_run(bool preempt, uthread_func_t func, void *arg)
 
 void uthread_block(void)
 {
-	/* TODO Phase 4 */
+	/* TODO Phase 3 */
+	
+	// change the state of current thread to block and yield the execution to the next available thread
+	currentThread->state = BLOCKED;
+    	uthread_yield();
 }
 
-void uthread_unblock(struct uthread_tcb *uthread)
-{
-	/* TODO Phase 4 */
-	uthread = NULL;
+void uthread_unblock(struct uthread_tcb *uthread) {
+	/* TODO Phase 3 */
+	
+	// the requested thread must have a block state
+	if(uthread->state == BLOCKED) {
+		
+		// change it's state to READY and put in the queue for execution
+		uthread->state = READY;
+		queue_enqueue(qThread,uthread);
+	}
 }
