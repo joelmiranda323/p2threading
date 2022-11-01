@@ -208,12 +208,9 @@ void uthread_block(void)
 
 void uthread_unblock(struct uthread_tcb *uthread) {
 	/* TODO Phase 3 */
-	
-	// the requested thread must have a block state
-	if(uthread->state == BLOCKED) {
 		
-		// change it's state to READY and put in the queue for execution
-		uthread->state = READY;
-		queue_enqueue(qThread,uthread);
-	}
+	// change it's state to READY and put in the queue for execution
+	uthread->state = READY;
+	queue_enqueue(qThread,uthread);
+
 }
