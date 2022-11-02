@@ -18,73 +18,78 @@
 #define MSECS 1000*SECS
 #define USECS 1000000*SECS
 
+struct sigaction sa;
+
 void signal_handler(int signum)
 {
-	printf("singla_handler(%d)\n", signum);
-	uthread_yield();
+	printf("signal_handler(%d)\n", signum);
+    uthread_yield();
 }
 
 void preempt_disable(void)
 {
 	/* TODO Phase 4 */
+	if (sa.sa_handler != NULL) {
 
-	// Disable alarm timer for 100 HZ
-	struct  itimerval timerValue;
-	struct  timeval enableInt = {0, 0};
-	struct  timeval timerInterval = {0, 0};
+		// Disable alarm timer for 100 HZ
+		struct  itimerval timerValue;
+		int itimerStatus;
 
-	timerValue.it_value = enableInt;
-	timerValue.it_interval = timerInterval;
+		// Disable alarm timer interval
+		timerValue.it_value.tv_sec = 0;
+		timerValue.it_value.tv_usec = 0;
+		
+		// Disable alarm interrupts
+		timerValue.it_interval.tv_sec = 0;
+		timerValue.it_interval.tv_usec = 0;
 
-	if (setitimer(ITIMER_VIRTUAL, &timerValue, NULL) == -1) {
-		perror("preempt_disable()");
-		printf("Could not set the interval timer!\n");
-		exit(-1);
+		itimerStatus = setitimer(ITIMER_VIRTUAL, &timerValue, NULL);
+		if (itimerStatus == -1) {
+			perror("preempt_disable()");
+			printf("Could not set the interval timer!\n");
+			exit(-1);
+		}
 	}
 }
 
 void preempt_enable(void)
 {
 	/* TODO Phase 4 */
+	if (sa.sa_handler != NULL) {
 
-	// Set up the timer value for 100 HZ
-	struct  itimerval timerValue;
+		// Set up the timer value for 100 HZ
+		struct  itimerval timerValue;
+		int itimerStatus;
 
-	// Enable alarm for consecutive interrupts after the 1st one
-	struct  timeval enableInt = {0, USECS};
+		// Set up alarm timer interval
+		timerValue.it_value.tv_sec = 0;
+		timerValue.it_value.tv_usec = USECS;
 
-	// set up alarm timer interval
-	struct  timeval timerInterval = {0, USECS};
+		// Enable alarm for consecutive interrupts after the 1st one
+		timerValue.it_interval.tv_sec = 0;
+		timerValue.it_interval.tv_usec = USECS;
 
-	timerValue.it_value = enableInt;
-	timerValue.it_interval = timerInterval;
-	
-	if (setitimer(ITIMER_VIRTUAL, &timerValue, NULL) == -1) {
-		perror("preempt_enable()");
-		printf("Could not set the interval timer!\n");
-		exit(-1);
+		itimerStatus = setitimer(ITIMER_VIRTUAL, &timerValue, NULL);
+
+		if (itimerStatus == -1) {
+			perror("preempt_enable()");
+			printf("Could not set the interval timer!\n");
+			exit(-1);
+		}
 	}
 }
 
 void preempt_start(bool preempt)
 {
 	/* TODO Phase 4 */
-
 	if (preempt == true) {
-		struct sigaction sa;
-
 		// Set up singal handler
-		// this is a pointer to the function so you should change signal_handler to &signal_handler
-		sa.sa_handler = &signal_handler;
+		sa.sa_handler = signal_handler;
 		sigemptyset(&sa.sa_mask);
 		sa.sa_flags = 0;
 		sigaction(SIGVTALRM, &sa, NULL);
 		preempt_enable();
 	}
-	else {
-		preempt_disable();
-	}
-
 }
 
 void preempt_stop(void)
