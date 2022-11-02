@@ -36,6 +36,7 @@ struct uthread_tcb *uthread_current(void)
 void uthread_yield(void)
 {
 	/* TODO Phase 2 */
+	preempt_disable();
 
 	// Get currrent running thread which change to a READY state
 	struct uthread_tcb *prevThread = uthread_current();
@@ -72,6 +73,7 @@ void uthread_yield(void)
 
 	// Save yielding threads context and activate current threads context
 	uthread_ctx_switch(prevThread->context, nextThread->context);
+	preempt_enable();
 }
 
 void uthread_exit(void)
@@ -146,14 +148,13 @@ int uthread_create(uthread_func_t func, void *arg)
 
 	// Add the new thread to the ready queue
 	queue_enqueue(qThread, (void *) newThread);
-
 	return 0;
 }
 
 int uthread_run(bool preempt, uthread_func_t func, void *arg)
 {
 	/* TODO Phase 2 */
-
+	preempt_start(true);
 	// Create an main/idle thread
 	struct uthread_tcb *idleThread = (struct uthread_tcb *) malloc(sizeof(struct uthread_tcb));
 
@@ -193,14 +194,14 @@ int uthread_run(bool preempt, uthread_func_t func, void *arg)
 	while (queue_length(qThread) != 0) {
 		uthread_yield();
 	}
-
+	
+	preempt_stop();
 	return 0;
 }
 
 void uthread_block(void)
 {
 	/* TODO Phase 3 */
-	
 	// change the state of current thread to block and yield the execution to the next available thread
 	currentThread->state = BLOCKED;
     	uthread_yield();
@@ -208,7 +209,6 @@ void uthread_block(void)
 
 void uthread_unblock(struct uthread_tcb *uthread) {
 	/* TODO Phase 3 */
-		
 	// change it's state to READY and put in the queue for execution
 	uthread->state = READY;
 	queue_enqueue(qThread,uthread);
