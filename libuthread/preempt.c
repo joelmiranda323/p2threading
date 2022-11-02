@@ -18,7 +18,8 @@
 #define MSECS 1000*SECS
 #define USECS 1000000*SECS
 
-struct sigaction sa;
+struct sigaction curr_sa;
+struct sigaction old_sa;
 
 void signal_handler(int signum)
 {
@@ -29,7 +30,7 @@ void signal_handler(int signum)
 void preempt_disable(void)
 {
 	/* TODO Phase 4 */
-	if (sa.sa_handler != NULL) {
+	if (curr_sa.sa_handler != NULL) {
 
 		// Disable alarm timer for 100 HZ
 		struct  itimerval timerValue;
@@ -55,7 +56,7 @@ void preempt_disable(void)
 void preempt_enable(void)
 {
 	/* TODO Phase 4 */
-	if (sa.sa_handler != NULL) {
+	if (curr_sa.sa_handler != NULL) {
 
 		// Set up the timer value for 100 HZ
 		struct  itimerval timerValue;
@@ -83,11 +84,21 @@ void preempt_start(bool preempt)
 {
 	/* TODO Phase 4 */
 	if (preempt == true) {
+
+		int saStatus;
+
 		// Set up singal handler
-		sa.sa_handler = signal_handler;
-		sigemptyset(&sa.sa_mask);
-		sa.sa_flags = 0;
-		sigaction(SIGVTALRM, &sa, NULL);
+		curr_sa.sa_handler = signal_handler;
+		sigemptyset(&curr_sa.sa_mask);
+		curr_sa.sa_flags = 0;
+
+		saStatus = sigaction(SIGVTALRM, &curr_sa, NULL);
+
+		if (saStatus == -1) {
+			perror("preempt_start()");
+			printf("Could not complete sigaction!\n");
+			exit(-1);
+		}
 		preempt_enable();
 	}
 }
@@ -95,5 +106,23 @@ void preempt_start(bool preempt)
 void preempt_stop(void)
 {
 	/* TODO Phase 4 */
+	int itimerStatus, saStatus;
+	struct  itimerval old_timerValue;
+
+	saStatus = sigaction(SIGVTALRM, NULL, &old_sa);
+
+	if (saStatus == -1) {
+		perror("preempt_stop()");
+		printf("Could not complete sigaction!\n");
+		exit(-1);
+	}
+
+	itimerStatus = setitimer(ITIMER_VIRTUAL, NULL, &old_timerValue);
+
+	if (itimerStatus == -1) {
+		perror("preempt_enable()");
+		printf("Could not set the interval timer!\n");
+		exit(-1);
+	}
 }
 
