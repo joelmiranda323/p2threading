@@ -28,9 +28,17 @@
 ####    the state name, a uthread_ctx_t object for the tcb context, and a void pointer
 ####    stack since the stacks data type is undetermined.
 ###   2.1: uthread_current()
-####    
+####    Implementing this function was simple. All we had to do was return the
+####    global tcb object which is the current thread. 
 ###   2.2: uthread_run()
-####    
+####    In this functions we first create an idle thread by allocating space for
+####    itself (the tcb object), its context, and its stack. We also initialize its 
+####    state to running because its the main thread currently running. Since the 
+####    idle thread is running we initialize the global current thread object with 
+####    the idle thread. Then we initialize the global ready queue with the queue_create() 
+####    function in PHASE 1 and create a new thread using the uthread_create() function.
+####    Lastly, we yield the current thread (by calling uthread_yield()) until there 
+####    are no more threads in the global ready queue.
 ###   2.3: uthread_create()
 ####    
 ###   2.4: uthread_yield()
