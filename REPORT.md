@@ -110,7 +110,35 @@
 ####    placed it to the universal queue to run later.
 #### ----------------------------------------------------------------------------
 ## PHASE 3: semaphore API (Ali)
-### 
+### INTRO
+####    Professor's lecture about Semaphores and how they manage resources was super
+####    clear, but I still needed a review of it before I was ready to implement it. 
+####    According the video, a semaphores will have counter for the resource and it has 
+####    a queue to put the blocked threads in it when the resource is not available. so 
+####    for sem struct, I added a queue and a counter.
+###    3.1-3.2: sem_create and sem_destroy
+####    For sem create, I allocated memory. Then, checked if the memory allocation was
+####    successful and the sem is not null. if it is succesfull, assign the counter to 
+####    the passed count, creat the queue and return the semaphores. For destroy, I 
+####    only destroyed it when there was not threads in the queue and the sem is not 
+####    null. 
+###    3.3 sem_down 
+####    For this part, the project explanation and the corner case helped a lot. The 
+####    basic idea is to first check if the resource is available by checking the 
+####    counter. If the couter is zero, then the resource is not available. Therefore, 
+####    the thread that requested this resource should be blocked and should be put in 
+####    the queue till the resource become available again. If the counter is not zero, 
+####    it means the resource is available. In that case, we just decrement the counter 
+####    meaning it is assign to requested thread and it is no longer available. In both 
+####    case we return zero. 
+###    3.4 sem_up
+####    This function was a little bit more complicated but with a little bit more 
+####    time, trying different scenarios, and using the testers, I was able to make it 
+####    work. The idea is to first check if the there is any thread in the queue and 
+####    waiting for resources. If yes, first, I made thread struct pointer that will 
+####    point to the dequeued thread and then, I ublocked it. Otherwise, if there is no 
+####    threads waiting for the resource, we just increment the counter meaning the 
+####    resource is available.
 #### ----------------------------------------------------------------------------
 ## PHASE 4: preemption (Joel and Ali)
 ####    Before implementing the functions for PHASE 4 we declared macors to make our code
@@ -141,12 +169,11 @@
 ####    to USECS and call setitimer().
 ###   4.4: preempt_disable()
 ####    To disable preemption we disable the alarm by setting it_value to 0 and call setitimer().
-###   4.5: other functions such as uthread_block/unblock()
 ####    
 #### ----------------------------------------------------------------------------
 ## SOURCES:
-### (1) 
+### (1) https://www.geeksforgeeks.org/queue-linked-list-implementation/?ref=lbp
 ###
-### (2) 
+### (2) https://www.youtube.com/watch?v=f1r_jxCyOl0
 ###
-### (3) 
+### (3) https://www.youtube.com/watch?v=XDIOC2EY5JE&t=827s
