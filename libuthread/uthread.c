@@ -154,7 +154,8 @@ int uthread_create(uthread_func_t func, void *arg)
 int uthread_run(bool preempt, uthread_func_t func, void *arg)
 {
 	/* TODO Phase 2 */
-	preempt_start(true);
+	
+	preempt_start(preempt);
 	// Create an main/idle thread
 	struct uthread_tcb *idleThread = (struct uthread_tcb *) malloc(sizeof(struct uthread_tcb));
 
@@ -178,9 +179,6 @@ int uthread_run(bool preempt, uthread_func_t func, void *arg)
 		printf("could NOT allocate memory for idleThread->stack\n");
 		return -1;
 	}
-	
-	// Start preemption
-	//preempt_start(preempt);
 
 	// The main/idle thread is the current running thread
 	currentThread = idleThread;
