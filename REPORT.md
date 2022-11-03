@@ -113,7 +113,7 @@
 ### INTRO
 ####    Professor's lecture about Semaphores and how they manage resources was super
 ####    clear, but I still needed a review of it before I was ready to implement it. 
-####    According the video, a semaphores will have counter for the resource and it has 
+####    According to the video, a semaphores will have counter for the resource and it has 
 ####    a queue to put the blocked threads in it when the resource is not available. so 
 ####    for sem struct, I added a queue and a counter.
 ###    3.1-3.2: sem_create and sem_destroy
@@ -123,7 +123,7 @@
 ####    only destroyed it when there was not threads in the queue and the sem is not 
 ####    null. 
 ###    3.3 sem_down 
-####    For this part, the project explanation and the corner case helped a lot. The 
+####    For this part, the project explanation and the corner case helped me a lot. The 
 ####    basic idea is to first check if the resource is available by checking the 
 ####    counter. If the couter is zero, then the resource is not available. Therefore, 
 ####    the thread that requested this resource should be blocked and should be put in 
@@ -134,9 +134,9 @@
 ###    3.4 sem_up
 ####    This function was a little bit more complicated but with a little bit more 
 ####    time, trying different scenarios, and using the testers, I was able to make it 
-####    work. The idea is to first check if the there is any thread in the queue and 
+####    work. The idea is to first check if there is any thread in the queue and 
 ####    waiting for resources. If yes, first, I made thread struct pointer that will 
-####    point to the dequeued thread and then, I ublocked it. Otherwise, if there is no 
+####    point to the dequeued thread, and then, I ublocked it. Otherwise, if there is no 
 ####    threads waiting for the resource, we just increment the counter meaning the 
 ####    resource is available.
 #### ----------------------------------------------------------------------------
