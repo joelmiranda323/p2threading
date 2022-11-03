@@ -28,7 +28,7 @@
 ####    the state name, a uthread_ctx_t object for the tcb context, and a void pointer
 ####    stack since the stacks data type is undetermined.
 ###   2.1: uthread_current()
-####  
+####    
 ###   2.2: uthread_run()
 ####    
 ###   2.3: uthread_create()
