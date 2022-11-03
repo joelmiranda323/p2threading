@@ -21,21 +21,21 @@
 ####    running and a tcb object that holds the current running threads tcb data. 
 ####    Additionally we needed to implement a tcb data structer to organize each 
 ####    threads data. 
-###   2.0 struct uthread_tcb
+###   2.0: struct uthread_tcb
 ####    Each thread has a tcb which includes the threads state, its context, and 
 ####    its stack. So in the uthread_tcb data structure we organized its tcb data
 ####    by using an int data type for the state which will take integer macros of 
 ####    the state name, a uthread_ctx_t object for the tcb context, and a void pointer
 ####    stack since the stacks data type is undetermined.
-###   2.1 uthread_current()
+###   2.1: uthread_current()
 ####  
-###   2.2 uthread_run()
+###   2.2: uthread_run()
 ####    
-###   2.3 uthread_create()
+###   2.3: uthread_create()
 ####    
-###   2.4 uthread_yield()
+###   2.4: uthread_yield()
 ####    
-###   2.5 uthread_exit()
+###   2.5: uthread_exit()
 ####   
 #### ----------------------------------------------------------------------------
 ## PHASE 3: semaphore API (Ali)
