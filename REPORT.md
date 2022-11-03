@@ -13,7 +13,7 @@
 ## PHASE 1: queue API (Ali)
 ####     
 #### ----------------------------------------------------------------------------
-## PHASE 2: uthread API (Joel)
+## PHASE 2: uthread API (Joel and Ali)
 ####    There were a total of 5 functions, uthread_current(), uthread_run(), 
 ####    uthread_create(), uthread_yield(), and uthread_exit(), implemented in 
 ####    this phase. But before implementing these functions we needed to declare 
@@ -58,6 +58,12 @@
 ####    in the ready queue, change its state to RUNNING, and change the global current 
 ####    thread object to the oldest thread. Finally, we do a context between the exited 
 ####    thread and the oldest thread so that it can start running.
+###   2.6: uthread_block
+####    for this function, I just changed the state of the currently running thread to
+####    "BLOCK" and yielded the execution.
+###   2.7: uthread_unblock
+####    for this function, I changed the state of the passed thread to "READY" and then 
+####    placed it to the universal queue to run later.
 #### ----------------------------------------------------------------------------
 ## PHASE 3: semaphore API (Ali)
 ### 
