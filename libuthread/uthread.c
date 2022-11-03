@@ -49,11 +49,11 @@ void uthread_yield(void)
 		// Add yeilding thread to the queue
 		queue_enqueue(qThread, (void *) prevThread);
 	}
-	else {
+	/*else {
 		// print the state of the current thread
 		perror("uthread_yield()");
 		printf("State of prevThread: %d\n", prevThread->state);
-	}
+	}*/
 
 	// Get the oldest thread from queue which will change to a RUNNING state
 	struct uthread_tcb *nextThread;
@@ -65,11 +65,11 @@ void uthread_yield(void)
 		nextThread->state = RUNNING;
 		currentThread = nextThread;
 	}
-	else {
+	/*else {
 		// print the state of the oldest thread
 		perror("uthread_yield()");
 		printf("State of nextThread: %d\n", nextThread->state);
-	}
+	}*/
 
 	// Save yielding threads context and activate current threads context
 	uthread_ctx_switch(prevThread->context, nextThread->context);
@@ -98,11 +98,11 @@ void uthread_exit(void)
 		nextThread->state = RUNNING;
 		currentThread = nextThread;
 	}
-	else {
+	/*else {
 		// print the state of the oldest thread
 		perror("uthread_exit()");
 		printf("State of nextThread: %d\n", nextThread->state);
-	}
+	}*/
 
 	// Save yielding threads context and activate current threads context
 	uthread_ctx_switch(prevThread->context, nextThread->context);
