@@ -16,11 +16,11 @@
 ## PHASE 2: uthread API (Joel)
 ####    There were a total of 5 functions, uthread_current(), uthread_run(), 
 ####    uthread_create(), uthread_yield(), and uthread_exit(), implemented in 
-####    this phase. But before implementing these functions we needed declare 
-####    2 race conditions, a ready queue to keep track of the threads that 
-####    aren't running and a tcb object that holds the current running threads
-####    tcb data. Additionally we needed to implement a tcb data structer to 
-####    organize each threads data. 
+####    this phase. But before implementing these functions we needed to declare 
+####    2 race conditions, a ready queue to keep track of threads that aren't 
+####    running and a tcb object that holds the current running threads tcb data. 
+####    Additionally we needed to implement a tcb data structer to organize each 
+####    threads data. 
 ###   struct uthread_tcb
 ####    Each thread has a tcb which includes the threads state, its context, and 
 ####    its stack. So in the uthread_tcb data structure we organized its tcb data
