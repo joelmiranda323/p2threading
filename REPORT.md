@@ -33,13 +33,17 @@
 ###   2.2: uthread_run()
 ####    In this functions we first create an idle thread by allocating space for
 ####    itself (the tcb object), its context, and its stack. We also initialize its 
-####    state to RUNNING because its the main thread currently running. Since the 
-####    idle thread is running we initialize the global current thread object with 
-####    the idle thread. Then we initialize the global ready queue with queue_create() 
-####    from PHASE 1 and create a new thread using uthread_create(). Lastly, we yield 
-####    the current thread (by calling uthread_yield()) unit the ready queue is empty.
+####    state to RUNNING because its the main thread currently running. Upon successfully 
+####    allocating space we initialize the global current thread object with the idle 
+####    thread since its running. Then we initialize the global ready queue with 
+####    queue_create() from PHASE 1 and create a new thread using uthread_create(). 
+####    Lastly, we yield the current thread (by calling uthread_yield()) unit the ready 
+####    queue is empty.
 ###   2.3: uthread_create()
-####    
+####    For uthread_create we create a new thread by allocating space (similar to the 
+####    idle thread in uthread_run()) and initializing its state to READY and its 
+####    context by using uthread_ctx_init(). Once we successfully allocate space and
+####    finish initializing the thread we push it to the ready queue.
 ###   2.4: uthread_yield()
 ####    
 ###   2.5: uthread_exit()
