@@ -63,7 +63,11 @@
 ### 
 #### ----------------------------------------------------------------------------
 ## PHASE 4: preemption (Joel and Ali)
-####     
+####    Before implementing the functions for PHASE 4 we declared macors to make our code
+####    readable. We use Hz, SECS, and USECS to represent frequency and time that will be
+####    used for configuring the interval timer of our virtual alarm. Additionally, we
+####    we included a global sigaction object that can be used to check whether our signal
+####    has a handler attatched to it.
 ###   4.0: signal_handler() 
 ####    This function will be executed everytime an alarm signal is sent. It displays,
 ####    the type of signal it is as an integer and yields the current running thread.
