@@ -8,8 +8,6 @@ CFILES = queue.c context.c uthread.c preempt.c sem.c
 OBJFILES = queue.o context.o uthread.o preempt.o sem.o
 # Target library
 lib := libuthread.a
-# Target executable Name
-EXE = uthread_yield
 
 all: $(lib) $(EXE)
 ## TODO: Phase 1
