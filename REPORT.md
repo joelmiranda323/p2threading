@@ -52,7 +52,12 @@
 ####    we do a context switch between the past current thread that is now yielding 
 ####    and the oldest thread that is now running so that the oldest can start executing.
 ###   2.5: uthread_exit()
-####   
+####    In this last function we obtain the current running thread, change its state to 
+####    EXIT, and deallocate the memory for the threads context and stack. This essentially 
+####    terminates the thread so it won't be executed again. Next, we getthe oldest thread 
+####    in the ready queue, change its state to RUNNING, and change the global current 
+####    thread object to the oldest thread. Finally, we do a context between the exited 
+####    thread and the oldest thread so that it can start running.
 #### ----------------------------------------------------------------------------
 ## PHASE 3: semaphore API (Ali)
 ### 
