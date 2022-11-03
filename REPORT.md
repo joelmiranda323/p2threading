@@ -45,7 +45,12 @@
 ####    context by using uthread_ctx_init(). Once we successfully allocate space and
 ####    finish initializing the thread we push it to the ready queue.
 ###   2.4: uthread_yield()
-####    
+####    In uthread_yield() we obtain the current running thread by calling 
+####    uthread_current(), change its state to READY, and push it to the ready queue.
+####    Next, we obtain the 'oldest thread' in the ready queue, change its state to
+####    RUNNING, and set the global current thread object to this old thread. Lastly,
+####    we do a context switch between the past current thread that is now yielding 
+####    and the oldest thread that is now running so that the oldest can start executing.
 ###   2.5: uthread_exit()
 ####   
 #### ----------------------------------------------------------------------------
