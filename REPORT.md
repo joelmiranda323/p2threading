@@ -34,7 +34,7 @@
 ####    In this functions we first create an idle thread by allocating space for
 ####    itself (the tcb object), its context, and its stack. We also initialize its 
 ####    state to running because its the main thread currently running. Since the 
-####    idle thread is running we initialize the global current thread object with 
+####    idle thread is RUNNING we initialize the global current thread object with 
 ####    the idle thread. Then we initialize the global ready queue with the queue_create() 
 ####    function in PHASE 1 and create a new thread using the uthread_create() function.
 ####    Lastly, we yield the current thread (by calling uthread_yield()) until there 
