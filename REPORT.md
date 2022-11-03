@@ -24,8 +24,8 @@
 ###   struct uthread_tcb
 ####    Each thread has a tcb which includes the threads state, its context, and 
 ####    its stack. So in the uthread_tcb data structure we organized its tcb data
-####    by using an int data type for the state which will take int macros of the 
-####    state name, uthread_ctx_t structure for the tcb context, and void pointer
+####    by using an int data type for the state which will take integer macros of 
+####    the state name, uthread_ctx_t structure for the tcb context, and void pointer
 ####    stack since the stack data type is undetermined.
 ###   uthread_current()
 ####  
