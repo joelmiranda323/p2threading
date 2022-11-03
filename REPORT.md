@@ -63,7 +63,32 @@
 ### 
 #### ----------------------------------------------------------------------------
 ## PHASE 4: preemption (Joel and Ali)
-### 
+####     
+###   4.0: signal_handler() 
+####    This function will be executed everytime an alarm signal is sent. It displays,
+####    the type of signal it is as an integer and yields the current running thread.
+###   4.1: preempt_start()
+####    If the start of uthread_run() uses preemption then we have to set up a virtual
+####    alarm that sends 100 signal interrupts per second (100 Hz). To do this we provide
+####    a handler for our sigaction object which is our signal_handler function and 
+####    specify that we want a virtual singal for this object by calling sigaction().
+####    Lastly, we enable the virtual alarm to send its first signal after 10000 
+####    microseconds and more interrpt signals after every 10000 microseconds by
+####    specifying it_value and it_interval to USECS and call setitimer() to register 
+####    this configuration.
+####
+####    In the case that we dont use preepmtion then we don't initialized the sigaction
+####    object at all so that its handler data is NULL.
+###   4.2: preempt_stop()
+####    
+###   4.3: preempt_enable()
+####    To enable preemption that has a signal handler we enable the alarm by setting it_value to USECS and 
+####    enable consecutive interrupts by setting it_interval to USECS.
+####    to USECS and call setitimer().
+###   4.4: preempt_disable()
+####    To disable preemption we disable the alarm by setting it_value to 0 and call setitimer().
+###   4.5: other functions such as uthread_block/unblock()
+####    
 #### ----------------------------------------------------------------------------
 ## SOURCES:
 ### (1) 
