@@ -6,6 +6,7 @@
 
 #include "queue.h"
 
+/* node struct for the queue */
 struct node{
     void *data;
     struct node *next;
@@ -21,7 +22,11 @@ struct queue {
 queue_t queue_create(void)
 {
     /* TODO Phase 1 */
+    
+    /* allocate memory */
     queue_t q = malloc(sizeof(struct queue));
+    
+    /* front and end points to null and assign the queue size to zero */
     q->front = 0;
     q->rear = 0;
     q->size = 0;
@@ -31,6 +36,8 @@ queue_t queue_create(void)
 int queue_destroy(queue_t queue)
 {
     /* TODO Phase 1 */
+    
+    /* if the queue is null or if it is not empty return -1, else destroy it */
     if(queue == NULL || queue->size != 0) {return -1;}
     free(queue);
     return 0;
@@ -39,14 +46,20 @@ int queue_destroy(queue_t queue)
 int queue_enqueue(queue_t queue, void *data)
 {
     /* TODO Phase 1 */
+    
+    /* if the data or queue is null return -1 */
     if(queue == NULL || data == NULL) {
         return -1;
     }
-
+    
+    /* allocate and create a new node to add to the queue*/
     struct node *new_node = (struct node*)malloc(sizeof(struct node));
+    
+    /* assign the passed data to the new node and it will point to null since it will be added to the end of the queue */
     new_node->data = data;
     new_node->next = 0;
-
+    
+    /* if the queue is empty, make the front node pointer of the queue point to the new node. else, add it to the of the queue, and also increase the size */
     if(queue->size == 0) {
         queue->front = new_node;
         queue->rear = new_node;
