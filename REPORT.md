@@ -37,7 +37,7 @@
 ####    idle thread is running we initialize the global current thread object with 
 ####    the idle thread. Then we initialize the global ready queue with queue_create() 
 ####    from PHASE 1 and create a new thread using uthread_create(). Lastly, we yield 
-####    the current thread (by calling uthread_yield()) unit the ready queue it empty.
+####    the current thread (by calling uthread_yield()) unit the ready queue is empty.
 ###   2.3: uthread_create()
 ####    
 ###   2.4: uthread_yield()
