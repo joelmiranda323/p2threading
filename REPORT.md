@@ -1,4 +1,4 @@
-# Project 2 Report by Joel Miranda and Ali
+# Project 2 Report by Joel Miranda and Ali Osmani
 #### ----------------------------------------------------------------------------
 ## Makefile (Joel)
 ####   The contents in our Makefile include variables, an 'all' target, and a
