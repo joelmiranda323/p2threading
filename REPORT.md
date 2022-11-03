@@ -14,7 +14,9 @@
 ####     
 ##### ----------------------------------------------------------------------------
 ## PHASE 2: uthread API (Joel)
-####
+####    There were a total of 5 functions, uthread_current(), uthread_run(), 
+####    uthread_create(), uthread_yield(), and uthread_exit(), implemented in 
+####    this phase.
 ###   struct uthread_tcb
 ####    
 ###   uthread_current()
