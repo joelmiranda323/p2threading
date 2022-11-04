@@ -162,7 +162,11 @@
 ####    In the case that we dont use preepmtion then we don't initialized the sigaction
 ####    object at all so that its handler data is NULL.
 ###   4.2: preempt_stop()
-####    
+####    To stop preemption we take the old sigaction object and old itimerval object 
+####    from before we called preempt_start() and set them as the current sigaction and 
+####    itimerval objects. We essentially set the signal action and interval timer 
+####    values to what we had before we started configuring the interrupts to produce 
+####    100 signal interrupts per second.  
 ###   4.3: preempt_enable()
 ####    To enable preemption that has a signal handler we enable the alarm by setting it_value to USECS and 
 ####    enable consecutive interrupts by setting it_interval to USECS.
